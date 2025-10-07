@@ -23,8 +23,9 @@ export default function HeroSection() {
     const [currentText, setCurrentText] = useState('');
     const [isDeleting, setIsDeleting] = useState(false);
     const [browserName, setBrowserName] = useState('Firefox');
+    const [isMobile, setIsMobile] = useState(false);
 
-    // Detect browser
+    // Detect browser and screen size
     useEffect(() => {
         const userAgent = navigator.userAgent.toLowerCase();
         if (userAgent.includes('chrome') && !userAgent.includes('edg')) {
@@ -36,6 +37,16 @@ export default function HeroSection() {
         } else {
             setBrowserName('Firefox'); // Default fallback
         }
+
+        // Check if mobile
+        const checkMobile = () => {
+            setIsMobile(window.innerWidth < 768);
+        };
+        
+        checkMobile();
+        window.addEventListener('resize', checkMobile);
+        
+        return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
     useEffect(() => {
@@ -104,19 +115,19 @@ export default function HeroSection() {
                     <div className="flex-1 mt-16 lg:mt-0 relative">
                         <div className="relative max-w-6xl lg:max-w-none mx-auto lg:mx-0 w-full lg:w-[720px] xl:w-[820px]">
                             <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 blur-3xl transform -rotate-1" />
-                            <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-gray-200/50 p-8 transform hover:scale-[1.02] transition-transform duration-500 overflow-hidden w-full" style={{ aspectRatio: '16 / 10' }}>
+                            <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-gray-200/50 p-8 transform hover:scale-[1.02] transition-transform duration-500 overflow-hidden w-full" style={{ aspectRatio: isMobile ? '16 / 26' : '16 / 10' }}>
                                 {/* Browser header */}
                                 <div className="flex items-center gap-3 pb-4 border-b border-gray-200 mb-6">
                                     <div className="w-3 h-3 rounded-full bg-red-400" />
                                     <div className="w-3 h-3 rounded-full bg-yellow-400" />
                                     <div className="w-3 h-3 rounded-full bg-green-400" />
                                     <div className="ml-4 flex-1 bg-gray-100 rounded-lg px-4 py-2 text-sm text-gray-600">
-                                        shopping-site.com/product/electronics
+                                        example.com/product/electronics
                                     </div>
                                 </div>
 
-                                {/* Product page layout */}
-                                <div className="flex gap-8">
+                                {/* Product page layout - Hidden on mobile, shown on larger screens */}
+                                <div className="hidden md:flex gap-8">
                                     {/* Left side - Product info (grayed out) */}
                                     <div className="flex-1 space-y-6 opacity-40">
                                         <div className="space-y-4">
@@ -127,7 +138,7 @@ export default function HeroSection() {
                                                 </div>
                                             </div>
                                             <div className="space-y-2">
-                                                <h2 className="text-2xl font-bold text-gray-600">Sample Electronics Product</h2>
+                                                <h2 className="text-2xl font-bold text-gray-600">Sample Product</h2>
                                                 <div className="flex items-center gap-2">
                                                     <span className="text-3xl font-bold text-gray-600">$199.99</span>
                                                     <span className="text-lg text-gray-400 line-through">$249.99</span>
@@ -202,6 +213,44 @@ export default function HeroSection() {
                                                     <span className="text-lg">→</span>
                                                 </button>
                                             </div>
+                                        </div>
+                                    </div>
+                                </div>
+
+                                {/* Mobile-only Savely popup - Shown on small screens */}
+                                <div className="md:hidden flex justify-center">
+                                    <div className="bg-gradient-to-br from-blue-900 to-blue-800 rounded-2xl p-8 border border-blue-700 shadow-2xl ring-4 ring-blue-500/20 ring-opacity-50 w-full max-w-sm" style={{ height: '420px' }}>
+                                        {/* Header */}
+                                        <div className="flex items-center justify-between mb-8">
+                                            <div className="flex items-center gap-3">
+                                                <div className="text-3xl">💳</div>
+                                                <span className="text-white font-semibold text-xl">Savely</span>
+                                            </div>
+                                            <div className="flex items-center gap-2">
+                                                <div className="w-3 h-3 bg-gray-400 rounded-full"></div>
+                                                <div className="w-3 h-3 bg-gray-400 rounded-full"></div>
+                                                <div className="w-3 h-3 bg-gray-400 rounded-full"></div>
+                                            </div>
+                                        </div>
+
+                                        {/* Main Content */}
+                                        <div className="text-center space-y-6">
+                                            <h3 className="text-white text-2xl font-bold min-h-[2rem] flex items-center justify-center">
+                                                {currentText}
+                                                <span className="animate-pulse">|</span>
+                                            </h3>
+                                            <div className="text-5xl font-bold text-yellow-400">
+                                                {topBrands[currentBrandIndex].discount}
+                                            </div>
+                                            
+                                            <div className="bg-blue-700 border border-blue-600 rounded-lg px-6 py-3">
+                                                <span className="text-blue-200 text-base font-medium">CardCookie</span>
+                                            </div>
+                                            
+                                            <button className="w-full bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-4 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 text-lg">
+                                                Get Discount
+                                                <span className="text-xl">→</span>
+                                            </button>
                                         </div>
                                     </div>
                                 </div>
