@@ -19,6 +19,7 @@ import HeroSection from './Components/landing/HeroSection';
 import HowItWorks from './Components/landing/HowItWorks';
 import BrandsSection from './Components/landing/BrandsSection';
 import CTASection from './Components/landing/CTASection';
+import NavigationMenu from './Components/landing/NavigationMenu';
 
 export default function Home() {
     const [scrollY, setScrollY] = useState(0);
@@ -43,19 +44,23 @@ export default function Home() {
                 />
             </div>
 
+            {/* Navigation */}
+            <NavigationMenu />
+
             {/* Content */}
             <div className="relative">
-                {/* Top-left logo */}
-                <header className="fixed top-5 left-6 z-50">
-                    <div className="inline-flex items-center gap-4 bg-white/80 backdrop-blur-md border border-gray-200 rounded-2xl px-6 py-4 shadow-sm">
-                        <div className="text-3xl">💳</div>
-                        <span className="text-gray-900 font-semibold text-xl">Savely</span>
-                    </div>
-                </header>
-                <HeroSection />
-                <HowItWorks />
-                <BrandsSection />
-                <CTASection />
+                <section id="hero">
+                    <HeroSection />
+                </section>
+                <section id="how-it-works">
+                    <HowItWorks />
+                </section>
+                <section id="brands">
+                    <BrandsSection />
+                </section>
+                <section id="cta">
+                    <CTASection />
+                </section>
 
                 {/* Footer */}
                 <footer className="border-t border-gray-200/50 backdrop-blur-sm bg-white/30 py-6">

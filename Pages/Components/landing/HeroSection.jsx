@@ -77,8 +77,8 @@ export default function HeroSection() {
     }, [currentText, currentBrandIndex, isDeleting]);
 
     return (
-        <section className="relative pt-20 pb-32 px-6 overflow-hidden">
-            <div className="max-w-6xl mx-auto">
+        <section className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden pt-20">
+            <div className="max-w-6xl mx-auto w-full">
                 <div className="lg:flex lg:items-center lg:gap-12">
                     {/* Left column - Text content */}
                     <div className="flex-1 space-y-8 animate-fade-in text-center lg:text-left">
