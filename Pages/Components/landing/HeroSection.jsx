@@ -77,15 +77,15 @@ export default function HeroSection() {
     }, [currentText, currentBrandIndex, isDeleting]);
 
     return (
-        <section className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden pt-20">
-            <div className="max-w-6xl mx-auto w-full">
-                <div className="lg:flex lg:items-center lg:gap-12">
+        <section className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden" style={{ marginTop: '1rem', minHeight: 'calc(100vh - 1rem)' }}>
+            <div className="max-w-7xl mx-auto w-full">
+                <div className="lg:flex lg:items-center lg:gap-16">
                     {/* Left column - Text content */}
-                    <div className="flex-1 space-y-8 animate-fade-in text-center lg:text-left">
+                    <div className="flex-1 space-y-10 lg:space-y-12 animate-fade-in text-center lg:text-left">
                     {/* Badge (removed savings claim per request) */}
 
                     {/* Main headline */}
-                        <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight">
+                        <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-tight">
                             <span className="bg-gradient-to-r from-purple-600 via-purple-500 to-blue-600 bg-clip-text text-transparent whitespace-normal md:whitespace-nowrap">
                                 Shop Smarter.
                             </span>
@@ -94,28 +94,28 @@ export default function HeroSection() {
                         </h1>
 
                     {/* Subheadline */}
-                        <p className="text-xl md:text-2xl text-gray-600 max-w-3xl mx-auto lg:mx-0 leading-relaxed font-light">
+                        <p className="text-xl md:text-2xl lg:text-3xl text-gray-600 max-w-4xl mx-auto lg:mx-0 leading-relaxed font-light">
                             Savely automatically finds discounted gift cards while you shop,
                             helping you save money on every online purchase—instantly and effortlessly.
                         </p>
 
                     {/* CTA Buttons */}
-                        <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start items-center lg:items-start pt-4">
+                        <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start items-center lg:items-start pt-6">
                             <Button
                                 size="lg"
-                                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-6 text-lg rounded-xl shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/40 transition-all duration-300 group"
+                                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-10 py-8 text-xl rounded-2xl shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/40 transition-all duration-300 group"
                             >
-                                <Chrome className="w-5 h-5 mr-2 group-hover:rotate-12 transition-transform" />
+                                <Chrome className="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform" />
                                 Add to {browserName} - It's Free!
                             </Button>
                         </div>
                     </div>
 
                     {/* Right column - Visual */}
-                    <div className="flex-1 mt-16 lg:mt-0 relative">
-                        <div className="relative max-w-6xl lg:max-w-none mx-auto lg:mx-0 w-full lg:w-[720px] xl:w-[820px]">
+                    <div className="flex-1 mt-20 lg:mt-0 relative">
+                        <div className="relative max-w-6xl lg:max-w-none mx-auto lg:mx-0 w-full lg:w-[680px] xl:w-[790px]">
                             <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 blur-3xl transform -rotate-1" />
-                            <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-gray-200/50 p-8 transform hover:scale-[1.02] transition-transform duration-500 overflow-hidden w-full" style={{ aspectRatio: isMobile ? '16 / 26' : '16 / 10' }}>
+                            <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-gray-200/50 p-10 transform hover:scale-[1.02] transition-transform duration-500 overflow-hidden w-full" style={{ aspectRatio: isMobile ? '16 / 26' : '16 / 12' }}>
                                 {/* Browser header */}
                                 <div className="flex items-center gap-3 pb-4 border-b border-gray-200 mb-6">
                                     <div className="w-3 h-3 rounded-full bg-red-400" />
@@ -180,7 +180,7 @@ export default function HeroSection() {
 
                                     {/* Right side - Savely popup */}
                                     <div className="relative">
-                                        <div className="bg-gradient-to-br from-blue-900 to-blue-800 rounded-2xl p-6 border border-blue-700 shadow-2xl ring-4 ring-blue-500/20 ring-opacity-50" style={{ width: '300px', height: '340px' }}>
+                                        <div className="bg-gradient-to-br from-blue-900 to-blue-800 rounded-2xl p-6 border border-blue-700 shadow-2xl ring-4 ring-blue-500/20 ring-opacity-50" style={{ width: '320px', height: '280px' }}>
                                             {/* Header */}
                                             <div className="flex items-center justify-between mb-6">
                                                 <div className="flex items-center gap-3">
@@ -204,10 +204,6 @@ export default function HeroSection() {
                                                     {topBrands[currentBrandIndex].discount}
                                                 </div>
                                                 
-                                                <div className="bg-blue-700 border border-blue-600 rounded-lg px-4 py-2">
-                                                    <span className="text-blue-200 text-sm">CardCookie</span>
-                                                </div>
-                                                
                                                 <button className="w-full bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
                                                     Get Discount
                                                     <span className="text-lg">→</span>
@@ -219,7 +215,7 @@ export default function HeroSection() {
 
                                 {/* Mobile-only Savely popup - Shown on small screens */}
                                 <div className="md:hidden flex justify-center">
-                                    <div className="bg-gradient-to-br from-blue-900 to-blue-800 rounded-2xl p-8 border border-blue-700 shadow-2xl ring-4 ring-blue-500/20 ring-opacity-50 w-full max-w-sm" style={{ height: '420px' }}>
+                                    <div className="bg-gradient-to-br from-blue-900 to-blue-800 rounded-2xl p-10 border border-blue-700 shadow-2xl ring-4 ring-blue-500/20 ring-opacity-50 w-full max-w-md" style={{ height: '400px' }}>
                                         {/* Header */}
                                         <div className="flex items-center justify-between mb-8">
                                             <div className="flex items-center gap-3">
@@ -241,10 +237,6 @@ export default function HeroSection() {
                                             </h3>
                                             <div className="text-5xl font-bold text-yellow-400">
                                                 {topBrands[currentBrandIndex].discount}
-                                            </div>
-                                            
-                                            <div className="bg-blue-700 border border-blue-600 rounded-lg px-6 py-3">
-                                                <span className="text-blue-200 text-base font-medium">CardCookie</span>
                                             </div>
                                             
                                             <button className="w-full bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-4 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 text-lg">
