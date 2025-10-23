@@ -180,7 +180,7 @@ export default function HeroSection() {
 
                                     {/* Right side - Savely popup */}
                                     <div className="relative">
-                                        <div className="bg-gradient-to-br from-blue-900 to-blue-800 rounded-2xl p-5 md:p-6 border border-blue-700 shadow-2xl ring-4 ring-blue-500/20 ring-opacity-50 w-[280px] h-[240px] md:w-[300px] md:h-[260px] lg:w-[320px] lg:h-[280px]">
+                                        <div className="bg-blue-600 rounded-2xl p-5 md:p-6 border border-blue-700 shadow-2xl ring-4 ring-blue-500/20 ring-opacity-50 w-[280px] h-[240px] md:w-[300px] md:h-[260px] lg:w-[320px] lg:h-[280px]">
                                             {/* Header */}
                                             <div className="flex items-center justify-between mb-6">
                                                 <div className="flex items-center gap-3">
@@ -204,11 +204,11 @@ export default function HeroSection() {
                                                     {currentText}
                                                     <span className="animate-pulse">|</span>
                                                 </h3>
-                                                <div className="text-3xl md:text-4xl font-bold text-yellow-400">
+                                                <div className="text-3xl md:text-4xl font-bold text-white">
                                                     {topBrands[currentBrandIndex].discount}
                                                 </div>
                                                 
-                                                <button className="w-full bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-2.5 md:py-3 px-5 md:px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
+                                                <button className="w-full bg-white text-blue-600 font-bold py-2.5 md:py-3 px-5 md:px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
                                                     Get Discount
                                                     <span className="text-base md:text-lg">→</span>
                                                 </button>
@@ -219,7 +219,7 @@ export default function HeroSection() {
 
                                 {/* Mobile-only Savely popup - Shown on small screens */}
                                 <div className="md:hidden flex justify-center">
-                                    <div className="bg-gradient-to-br from-blue-900 to-blue-800 rounded-2xl p-6 sm:p-7 border border-blue-700 shadow-2xl ring-4 ring-blue-500/20 ring-opacity-50 w-full max-w-[340px]" style={{ height: '260px' }}>
+                                    <div className="bg-blue-600 rounded-2xl p-6 sm:p-7 border border-blue-700 shadow-2xl ring-4 ring-blue-500/20 ring-opacity-50 w-full max-w-[340px]" style={{ height: '260px' }}>
                                         {/* Header */}
                                         <div className="flex items-center justify-between mb-8">
                                             <div className="flex items-center gap-3">
@@ -243,11 +243,11 @@ export default function HeroSection() {
                                                 {currentText}
                                                 <span className="animate-pulse">|</span>
                                             </h3>
-                                            <div className="text-3xl font-bold text-yellow-400">
+                                            <div className="text-3xl font-bold text-white">
                                                 {topBrands[currentBrandIndex].discount}
                                             </div>
                                             
-                                            <button className="w-full bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-2.5 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 text-sm">
+                                            <button className="w-full bg-white text-blue-600 font-bold py-2.5 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 text-sm">
                                                 Get Discount
                                                 <span className="text-base">→</span>
                                             </button>
