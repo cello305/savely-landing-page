@@ -1,119 +1,156 @@
+import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Chrome } from 'lucide-react';
+import { Chrome, Globe, Lock, Zap } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
 const topBrands = [
-  { name: 'Amazon', discount: 'Up to 12% off' },
-  { name: 'Target', discount: 'Up to 10% off' },
-  { name: 'Walmart', discount: 'Up to 11% off' },
-  { name: 'Best Buy', discount: 'Up to 13% off' },
-  { name: 'Home Depot', discount: 'Up to 15% off' },
-  { name: "Lowe's", discount: 'Up to 14% off' },
-  { name: 'Nike', discount: 'Up to 10% off' },
-  { name: 'Adidas', discount: 'Up to 11% off' },
-  { name: 'Starbucks', discount: 'Up to 8% off' },
-  { name: 'Apple', discount: 'Up to 6% off' },
-  { name: 'Uber', discount: 'Up to 9% off' },
-  { name: 'DoorDash', discount: 'Up to 7% off' }
+    { name: 'Amazon', discount: 'Up to 12% off' },
+    { name: 'Target', discount: 'Up to 10% off' },
+    { name: 'Walmart', discount: 'Up to 11% off' },
+    { name: 'Best Buy', discount: 'Up to 13% off' },
+    { name: 'Home Depot', discount: 'Up to 15% off' },
+    { name: "Lowe's", discount: 'Up to 14% off' },
+    { name: 'Nike', discount: 'Up to 10% off' },
+    { name: 'Adidas', discount: 'Up to 11% off' },
+    { name: 'Starbucks', discount: 'Up to 8% off' },
+    { name: 'Apple', discount: 'Up to 6% off' },
+    { name: 'Uber', discount: 'Up to 9% off' },
+    { name: 'DoorDash', discount: 'Up to 7% off' }
+];
+
+const supportedBrands = [
+    'Amazon',
+    'Target',
+    'Walmart',
+    'Best Buy',
+    'Home Depot',
+    'Nike'
 ];
 
 export default function HeroSection() {
     const [currentBrandIndex, setCurrentBrandIndex] = useState(0);
     const [currentText, setCurrentText] = useState('');
     const [isDeleting, setIsDeleting] = useState(false);
-    const [browserName, setBrowserName] = useState('Firefox');
     const [isMobile, setIsMobile] = useState(false);
+    const [browserName, setBrowserName] = useState('Chrome');
 
-    // Detect browser and screen size
     useEffect(() => {
-        const userAgent = navigator.userAgent.toLowerCase();
-        if (userAgent.includes('chrome') && !userAgent.includes('edg')) {
-            setBrowserName('Chrome');
-        } else if (userAgent.includes('firefox')) {
-            setBrowserName('Firefox');
-        } else if (userAgent.includes('edg')) {
+        const checkMobile = () => setIsMobile(window.innerWidth < 768);
+        checkMobile();
+
+        // Detect browser for CTA copy
+        const ua = navigator.userAgent.toLowerCase();
+        if (ua.includes('edg')) {
             setBrowserName('Edge');
+        } else if (ua.includes('firefox')) {
+            setBrowserName('Firefox');
+        } else if (ua.includes('chrome')) {
+            setBrowserName('Chrome');
+        } else if (ua.includes('safari')) {
+            setBrowserName('Safari');
         } else {
-            setBrowserName('Firefox'); // Default fallback
+            setBrowserName('Chrome');
         }
 
-        // Check if mobile
-        const checkMobile = () => {
-            setIsMobile(window.innerWidth < 768);
-        };
-        
-        checkMobile();
         window.addEventListener('resize', checkMobile);
-        
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
 
     useEffect(() => {
         const timeout = setTimeout(() => {
             const currentBrand = topBrands[currentBrandIndex];
-            
             if (!isDeleting) {
-                // Typing
                 if (currentText.length < currentBrand.name.length) {
                     setCurrentText(currentBrand.name.slice(0, currentText.length + 1));
                 } else {
-                    // Finished typing, wait then start deleting
-                    setTimeout(() => setIsDeleting(true), 2000);
+                    setTimeout(() => setIsDeleting(true), 1600);
                 }
             } else {
-                // Deleting
                 if (currentText.length > 0) {
                     setCurrentText(currentText.slice(0, -1));
                 } else {
-                    // Finished deleting, move to next brand
                     setIsDeleting(false);
                     setCurrentBrandIndex((prev) => (prev + 1) % topBrands.length);
                 }
             }
-        }, isDeleting ? 50 : 100); // Faster when deleting
-
+        }, isDeleting ? 50 : 100);
         return () => clearTimeout(timeout);
     }, [currentText, currentBrandIndex, isDeleting]);
 
     return (
-        <section id="hero" className="relative flex items-start lg:items-center justify-center px-6 overflow-visible pt-28 sm:pt-32 md:pt-36 lg:pt-20 pb-16 md:pb-24 lg:min-h-screen" style={{ minHeight: '100vh' }}>
-            <div className="max-w-7xl mx-auto w-full">
-                <div className="lg:flex lg:items-center lg:gap-20 xl:gap-24">
-                    {/* Left column - Text content */}
-                    <div className="flex-1 space-y-8 sm:space-y-10 lg:space-y-12 animate-fade-in text-center lg:text-left lg:max-w-xl xl:max-w-2xl">
-                    {/* Badge (removed savings claim per request) */}
+        <section id="hero" className="relative px-6 pt-28 sm:pt-32 md:pt-40 pb-16 md:pb-24 min-h-screen">
+            <div className="max-w-7xl mx-auto">
+                <div className="grid lg:grid-cols-2 gap-12 items-center">
+                    {/* Left Content */}
+                    <div className="space-y-8 text-center lg:text-left">
+                        {/* Trust Badge */}
+                        <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-sm font-medium">
+                            <Chrome className="w-4 h-4" />
+                            <span>Free {browserName} Extension</span>
+                        </div>
 
-                    {/* Main headline */}
-                        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight font-clash">
-                            <span className="bg-blue-600 bg-clip-text text-transparent whitespace-normal md:whitespace-nowrap">
-                                Shop Smarter.
-                            </span>
-                            <br />
-                            <span className="text-gray-900">Save More.</span>
-                        </h1>
+                        {/* Headline and Subtext */}
+                        <div className="space-y-4">
+                            <h1 className="text-5xl md:text-6xl font-bold leading-tight text-balance">
+                                <span className="text-blue-600">Shop Smarter.</span>
+                                <br />
+                                <span className="text-gray-900">Save More.</span>
+                            </h1>
+                            <p className="text-lg text-gray-600 leading-relaxed max-w-lg mx-auto lg:mx-0">
+                                Savely automatically finds discounted gift cards while you shop, helping you save
+                                money on every online purchase instantly and effortlessly.
+                            </p>
+                        </div>
 
-                    {/* Subheadline */}
-                        <p className="text-lg sm:text-xl text-gray-600 leading-relaxed max-w-xl mx-auto lg:mx-0">
-                            Savely automatically finds discounted gift cards while you shop,
-                            helping you save money on every online purchase instantly and effortlessly.
-                        </p>
-
-                    {/* CTA Buttons */}
-                        <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start items-center lg:items-start pt-6">
-                            <Button
-                                size="lg"
-                                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-5 text-base sm:px-10 sm:py-8 sm:text-xl rounded-2xl shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300 group"
-                            >
-                                <Chrome className="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform" />
+                        {/* CTA */}
+                        <div>
+                            <Button size="lg" className="group bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 text-lg h-auto">
+                                <Chrome className="w-6 h-6 mr-3 transition-transform group-hover:animate-spin" />
                                 Add to {browserName} - It's Free!
                             </Button>
                         </div>
+
+                        {/* Key Features */}
+                        <div className="grid grid-cols-3 gap-6 pt-8 border-t">
+                            <div className="space-y-2">
+                                <div className="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-lg mx-auto lg:mx-0">
+                                    <Zap className="w-5 h-5 text-blue-600" />
+                                </div>
+                                <p className="text-sm font-medium text-gray-900">Instant Savings</p>
+                                <p className="text-xs text-gray-500">Automatic discount detection</p>
+                            </div>
+                            <div className="space-y-2">
+                                <div className="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-lg mx-auto lg:mx-0">
+                                    <Lock className="w-5 h-5 text-blue-600" />
+                                </div>
+                                <p className="text-sm font-medium text-gray-900">100% Secure</p>
+                                <p className="text-xs text-gray-500">Your data stays private</p>
+                            </div>
+                            <div className="space-y-2">
+                                <div className="flex items-center justify-center w-10 h-10 bg-blue-100 rounded-lg mx-auto lg:mx-0">
+                                    <Globe className="w-5 h-5 text-blue-600" />
+                                </div>
+                                <p className="text-sm font-medium text-gray-900">500+ Stores</p>
+                                <p className="text-xs text-gray-500">Major retailers supported</p>
+                            </div>
+                        </div>
+
+                        {/* Supported Brands */}
+                        <div className="space-y-3">
+                            <p className="text-sm font-medium text-gray-500">Works with 500+ brands including:</p>
+                            <div className="flex flex-wrap gap-2 justify-center lg:justify-start">
+                                {supportedBrands.map((brand) => (
+                                    <Badge key={brand} variant="" className="px-3 py-1 bg-gray-100 text-gray-900">
+                                        {brand}
+                                    </Badge>
+                                ))}
+                            </div>
+                        </div>
                     </div>
 
-                    {/* Right column - Visual */}
+                    {/* Right Content - Restore previous browser mockup */}
                     <div className="flex-1 mt-10 sm:mt-14 lg:mt-0 relative">
                         <div className="relative max-w-6xl lg:max-w-none mx-auto lg:mx-0 w-full sm:w-[460px] md:w-[560px] lg:w-[640px] xl:w-[720px]">
-                            
                             <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 via-blue-500/20 to-blue-700/20 blur-3xl transform -rotate-1" />
                             <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-gray-200/50 p-5 sm:p-6 md:p-10 transform md:hover:scale-[1.02] transition-transform duration-500 overflow-hidden w-full" style={{ aspectRatio: isMobile ? '16 / 16' : '16 / 12' }}>
                                 {/* Browser header */}
@@ -152,7 +189,7 @@ export default function HeroSection() {
                                                 </div>
                                             </div>
                                         </div>
-                                        
+
                                         <div className="space-y-3">
                                             <h3 className="font-semibold text-gray-500">Product Features:</h3>
                                             <ul className="space-y-1 text-sm text-gray-400">
@@ -259,16 +296,6 @@ export default function HeroSection() {
                     </div>
                 </div>
             </div>
-
-            <style>{`
-        @keyframes fade-in {
-          from { opacity: 0; transform: translateY(20px); }
-          to { opacity: 1; transform: translateY(0); }
-        }
-        .animate-fade-in {
-          animation: fade-in 0.8s ease-out;
-        }
-      `}</style>
         </section>
     );
 }
