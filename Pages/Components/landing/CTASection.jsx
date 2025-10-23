@@ -27,7 +27,7 @@ export default function CTASection() {
 
   return (
     <section className="py-32 px-6 relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-br from-purple-600 via-purple-700 to-blue-700" />
+      <div className="absolute inset-0 bg-gradient-to-br from-blue-600 via-blue-700 to-blue-800" />
       <div className="absolute inset-0 opacity-10">
         <div className="absolute inset-0" style={{
           backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
@@ -40,14 +40,14 @@ export default function CTASection() {
           Ready to start saving?
         </h2>
         
-        <p className="text-xl md:text-2xl text-purple-100 max-w-2xl mx-auto font-light">
+        <p className="text-xl md:text-2xl text-blue-100 max-w-2xl mx-auto font-light">
           Join thousands of smart shoppers who save money on every purchase
         </p>
 
         <div className="pt-6">
           <Button 
             size="lg"
-            className="bg-white text-purple-700 hover:bg-gray-50 px-10 py-7 text-xl rounded-2xl shadow-2xl hover:shadow-white/20 transition-all duration-300 hover:scale-105 group"
+            className="bg-white text-blue-700 hover:bg-gray-50 px-10 py-7 text-xl rounded-2xl shadow-2xl hover:shadow-white/20 transition-all duration-300 hover:scale-105 group"
           >
             <Chrome className="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform" />
             Add to {browserName} - Free Forever
@@ -55,7 +55,7 @@ export default function CTASection() {
         </div>
 
         <div className="pt-8">
-          <div className="flex flex-wrap justify-center items-center gap-6 text-purple-100">
+          <div className="flex flex-wrap justify-center items-center gap-6 text-blue-100">
             {benefits.map((benefit, index) => (
               <div 
                 key={index}

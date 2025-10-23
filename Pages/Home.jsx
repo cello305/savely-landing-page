@@ -31,7 +31,7 @@ export default function Home() {
     }, []);
 
     return (
-        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50/30 to-blue-50/20">
+        <div className="min-h-screen bg-gradient-to-br from-slate-50 via-purple-50/30 to-blue-50/20 antialiased">
             {/* Floating gradient orbs */}
             <div className="fixed inset-0 overflow-hidden pointer-events-none">
                 <div
@@ -66,7 +66,7 @@ export default function Home() {
                 <footer className="border-t border-gray-200/50 backdrop-blur-sm bg-white/30 py-6">
                     <div className="max-w-7xl mx-auto px-6 text-center">
                         <p className="text-gray-600 text-sm">
-                            © 2024 Savely. Save smarter, shop better.
+                            © 2025 Savely. Save smarter, shop better.
                         </p>
                     </div>
                 </footer>

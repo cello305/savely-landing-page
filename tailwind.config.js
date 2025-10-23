@@ -6,7 +6,12 @@ export default {
     "./Pages/**/*.{js,ts,jsx,tsx}",
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        clash: ['"Clash Grotesk"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+        clashDisplay: ['"Clash Display"', 'ui-sans-serif', 'system-ui', 'sans-serif'],
+      },
+    },
   },
   plugins: [],
 }

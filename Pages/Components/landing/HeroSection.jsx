@@ -1,21 +1,20 @@
-import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Badge } from '@/components/ui/badge';
-import { Chrome, Sparkles, TrendingDown } from 'lucide-react';
+import { Chrome } from 'lucide-react';
+import React, { useEffect, useState } from 'react';
 
 const topBrands = [
-  { name: 'Amazon', discount: 'Up to 8.5% off' },
-  { name: 'Target', discount: 'Up to 6.2% off' },
-  { name: 'Walmart', discount: 'Up to 7.8% off' },
-  { name: 'Best Buy', discount: 'Up to 7.0% off' },
-  { name: 'Home Depot', discount: 'Up to 9.1% off' },
-  { name: "Lowe's", discount: 'Up to 8.3% off' },
-  { name: 'Nike', discount: 'Up to 5.5% off' },
-  { name: 'Adidas', discount: 'Up to 6.8% off' },
-  { name: 'Starbucks', discount: 'Up to 4.2% off' },
-  { name: 'Apple', discount: 'Up to 3.9% off' },
-  { name: 'Uber', discount: 'Up to 5.1% off' },
-  { name: 'DoorDash', discount: 'Up to 4.7% off' }
+  { name: 'Amazon', discount: 'Up to 12% off' },
+  { name: 'Target', discount: 'Up to 10% off' },
+  { name: 'Walmart', discount: 'Up to 11% off' },
+  { name: 'Best Buy', discount: 'Up to 13% off' },
+  { name: 'Home Depot', discount: 'Up to 15% off' },
+  { name: "Lowe's", discount: 'Up to 14% off' },
+  { name: 'Nike', discount: 'Up to 10% off' },
+  { name: 'Adidas', discount: 'Up to 11% off' },
+  { name: 'Starbucks', discount: 'Up to 8% off' },
+  { name: 'Apple', discount: 'Up to 6% off' },
+  { name: 'Uber', discount: 'Up to 9% off' },
+  { name: 'DoorDash', discount: 'Up to 7% off' }
 ];
 
 export default function HeroSection() {
@@ -77,16 +76,16 @@ export default function HeroSection() {
     }, [currentText, currentBrandIndex, isDeleting]);
 
     return (
-        <section className="relative min-h-screen flex items-center justify-center px-6 overflow-hidden" style={{ marginTop: '1rem', minHeight: 'calc(100vh - 1rem)' }}>
+        <section id="hero" className="relative flex items-start lg:items-center justify-center px-6 overflow-visible pt-28 sm:pt-32 md:pt-36 lg:pt-20 pb-16 md:pb-24 lg:min-h-screen" style={{ minHeight: '100vh' }}>
             <div className="max-w-7xl mx-auto w-full">
-                <div className="lg:flex lg:items-center lg:gap-16">
+                <div className="lg:flex lg:items-center lg:gap-20 xl:gap-24">
                     {/* Left column - Text content */}
-                    <div className="flex-1 space-y-10 lg:space-y-12 animate-fade-in text-center lg:text-left">
+                    <div className="flex-1 space-y-8 sm:space-y-10 lg:space-y-12 animate-fade-in text-center lg:text-left lg:max-w-xl xl:max-w-2xl">
                     {/* Badge (removed savings claim per request) */}
 
                     {/* Main headline */}
-                        <h1 className="text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight leading-tight">
-                            <span className="bg-gradient-to-r from-purple-600 via-purple-500 to-blue-600 bg-clip-text text-transparent whitespace-normal md:whitespace-nowrap">
+                        <h1 className="text-4xl sm:text-5xl md:text-6xl lg:text-7xl font-bold tracking-tight leading-tight font-clash">
+                            <span className="bg-blue-600 bg-clip-text text-transparent whitespace-normal md:whitespace-nowrap">
                                 Shop Smarter.
                             </span>
                             <br />
@@ -94,16 +93,16 @@ export default function HeroSection() {
                         </h1>
 
                     {/* Subheadline */}
-                        <p className="text-xl md:text-2xl lg:text-3xl text-gray-600 max-w-4xl mx-auto lg:mx-0 leading-relaxed font-light">
+                        <p className="text-lg sm:text-xl text-gray-600 leading-relaxed max-w-xl mx-auto lg:mx-0">
                             Savely automatically finds discounted gift cards while you shop,
-                            helping you save money on every online purchase—instantly and effortlessly.
+                            helping you save money on every online purchase instantly and effortlessly.
                         </p>
 
                     {/* CTA Buttons */}
                         <div className="flex flex-col sm:flex-row gap-6 justify-center lg:justify-start items-center lg:items-start pt-6">
                             <Button
                                 size="lg"
-                                className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-10 py-8 text-xl rounded-2xl shadow-lg shadow-purple-500/25 hover:shadow-xl hover:shadow-purple-500/40 transition-all duration-300 group"
+                                className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-5 text-base sm:px-10 sm:py-8 sm:text-xl rounded-2xl shadow-lg shadow-blue-500/25 hover:shadow-xl hover:shadow-blue-500/40 transition-all duration-300 group"
                             >
                                 <Chrome className="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform" />
                                 Add to {browserName} - It's Free!
@@ -112,10 +111,11 @@ export default function HeroSection() {
                     </div>
 
                     {/* Right column - Visual */}
-                    <div className="flex-1 mt-20 lg:mt-0 relative">
-                        <div className="relative max-w-6xl lg:max-w-none mx-auto lg:mx-0 w-full lg:w-[680px] xl:w-[790px]">
-                            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 blur-3xl transform -rotate-1" />
-                            <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-gray-200/50 p-10 transform hover:scale-[1.02] transition-transform duration-500 overflow-hidden w-full" style={{ aspectRatio: isMobile ? '16 / 26' : '16 / 12' }}>
+                    <div className="flex-1 mt-10 sm:mt-14 lg:mt-0 relative">
+                        <div className="relative max-w-6xl lg:max-w-none mx-auto lg:mx-0 w-full sm:w-[460px] md:w-[560px] lg:w-[640px] xl:w-[720px]">
+                            
+                            <div className="absolute inset-0 bg-gradient-to-r from-blue-400/20 via-blue-500/20 to-blue-700/20 blur-3xl transform -rotate-1" />
+                            <div className="relative bg-white/80 backdrop-blur-xl rounded-3xl shadow-2xl border border-gray-200/50 p-5 sm:p-6 md:p-10 transform md:hover:scale-[1.02] transition-transform duration-500 overflow-hidden w-full" style={{ aspectRatio: isMobile ? '16 / 16' : '16 / 12' }}>
                                 {/* Browser header */}
                                 <div className="flex items-center gap-3 pb-4 border-b border-gray-200 mb-6">
                                     <div className="w-3 h-3 rounded-full bg-red-400" />
@@ -126,10 +126,10 @@ export default function HeroSection() {
                                     </div>
                                 </div>
 
-                                {/* Product page layout - Hidden on mobile, shown on larger screens */}
-                                <div className="hidden md:flex gap-8">
+                                {/* Product page layout - Show popup centered on md, full layout on lg */}
+                                <div className="hidden md:flex md:justify-center md:gap-6 lg:justify-start lg:gap-8">
                                     {/* Left side - Product info (grayed out) */}
-                                    <div className="flex-1 space-y-6 opacity-40">
+                                    <div className="hidden lg:block flex-1 space-y-6 opacity-40">
                                         <div className="space-y-4">
                                             <div className="w-full h-40 md:h-48 bg-gray-300 rounded-lg flex items-center justify-center">
                                                 <div className="text-center">
@@ -180,11 +180,15 @@ export default function HeroSection() {
 
                                     {/* Right side - Savely popup */}
                                     <div className="relative">
-                                        <div className="bg-gradient-to-br from-blue-900 to-blue-800 rounded-2xl p-6 border border-blue-700 shadow-2xl ring-4 ring-blue-500/20 ring-opacity-50" style={{ width: '320px', height: '280px' }}>
+                                        <div className="bg-gradient-to-br from-blue-900 to-blue-800 rounded-2xl p-5 md:p-6 border border-blue-700 shadow-2xl ring-4 ring-blue-500/20 ring-opacity-50 w-[280px] h-[240px] md:w-[300px] md:h-[260px] lg:w-[320px] lg:h-[280px]">
                                             {/* Header */}
                                             <div className="flex items-center justify-between mb-6">
                                                 <div className="flex items-center gap-3">
-                                                    <div className="text-2xl">💳</div>
+                                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                                                        <path d="M16 10a4 4 0 0 1-8 0"/>
+                                                        <path d="M3.103 6.034h17.794"/>
+                                                        <path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z"/>
+                                                    </svg>
                                                     <span className="text-white font-semibold text-lg">Savely</span>
                                                 </div>
                                                 <div className="flex items-center gap-2">
@@ -195,18 +199,18 @@ export default function HeroSection() {
                                             </div>
 
                                             {/* Main Content */}
-                                            <div className="text-center space-y-4">
-                                                <h3 className="text-white text-xl font-bold min-h-[1.5rem] flex items-center justify-center">
+                                            <div className="text-center space-y-3">
+                                                <h3 className="text-white text-lg md:text-xl font-bold min-h-[1.5rem] flex items-center justify-center">
                                                     {currentText}
                                                     <span className="animate-pulse">|</span>
                                                 </h3>
-                                                <div className="text-4xl font-bold text-yellow-400">
+                                                <div className="text-3xl md:text-4xl font-bold text-yellow-400">
                                                     {topBrands[currentBrandIndex].discount}
                                                 </div>
                                                 
-                                                <button className="w-full bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-3 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
+                                                <button className="w-full bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-2.5 md:py-3 px-5 md:px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2">
                                                     Get Discount
-                                                    <span className="text-lg">→</span>
+                                                    <span className="text-base md:text-lg">→</span>
                                                 </button>
                                             </div>
                                         </div>
@@ -215,11 +219,15 @@ export default function HeroSection() {
 
                                 {/* Mobile-only Savely popup - Shown on small screens */}
                                 <div className="md:hidden flex justify-center">
-                                    <div className="bg-gradient-to-br from-blue-900 to-blue-800 rounded-2xl p-10 border border-blue-700 shadow-2xl ring-4 ring-blue-500/20 ring-opacity-50 w-full max-w-md" style={{ height: '400px' }}>
+                                    <div className="bg-gradient-to-br from-blue-900 to-blue-800 rounded-2xl p-6 sm:p-7 border border-blue-700 shadow-2xl ring-4 ring-blue-500/20 ring-opacity-50 w-full max-w-[340px]" style={{ height: '260px' }}>
                                         {/* Header */}
                                         <div className="flex items-center justify-between mb-8">
                                             <div className="flex items-center gap-3">
-                                                <div className="text-3xl">💳</div>
+                                                <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="text-white">
+                                                    <path d="M16 10a4 4 0 0 1-8 0"/>
+                                                    <path d="M3.103 6.034h17.794"/>
+                                                    <path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z"/>
+                                                </svg>
                                                 <span className="text-white font-semibold text-xl">Savely</span>
                                             </div>
                                             <div className="flex items-center gap-2">
@@ -230,18 +238,18 @@ export default function HeroSection() {
                                         </div>
 
                                         {/* Main Content */}
-                                        <div className="text-center space-y-6">
-                                            <h3 className="text-white text-2xl font-bold min-h-[2rem] flex items-center justify-center">
+                                        <div className="text-center space-y-3">
+                                            <h3 className="text-white text-lg font-bold min-h-[1.5rem] flex items-center justify-center">
                                                 {currentText}
                                                 <span className="animate-pulse">|</span>
                                             </h3>
-                                            <div className="text-5xl font-bold text-yellow-400">
+                                            <div className="text-3xl font-bold text-yellow-400">
                                                 {topBrands[currentBrandIndex].discount}
                                             </div>
                                             
-                                            <button className="w-full bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-4 px-6 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 text-lg">
+                                            <button className="w-full bg-yellow-400 hover:bg-yellow-300 text-black font-bold py-2.5 px-4 rounded-lg transition-colors duration-200 flex items-center justify-center gap-2 text-sm">
                                                 Get Discount
-                                                <span className="text-xl">→</span>
+                                                <span className="text-base">→</span>
                                             </button>
                                         </div>
                                     </div>

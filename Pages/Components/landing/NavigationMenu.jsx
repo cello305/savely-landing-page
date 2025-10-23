@@ -4,6 +4,8 @@ import { Menu, X } from 'lucide-react';
 const NavigationMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
+  const [scrolled, setScrolled] = useState(false);
+  const [extensionUrl, setExtensionUrl] = useState('#');
 
   const navItems = [
     { name: 'Home', href: '#hero' },
@@ -12,11 +14,19 @@ const NavigationMenu = () => {
     { name: 'Get Started', href: '#cta' }
   ];
 
+  // Helper: current header height
+  const getHeaderOffset = () => {
+    const navEl = document.querySelector('nav');
+    const fallback = window.innerWidth < 768 ? 64 : 80;
+    return (navEl?.offsetHeight || fallback) + 8; // cushion
+  };
+
   // Handle smooth scrolling
   const handleNavClick = (href) => {
     const element = document.querySelector(href);
     if (element) {
-      const offsetTop = element.offsetTop - 80; // Account for fixed header
+      const headerOffset = getHeaderOffset();
+      const offsetTop = element.offsetTop - headerOffset;
       window.scrollTo({
         top: offsetTop,
         behavior: 'smooth'
@@ -25,11 +35,14 @@ const NavigationMenu = () => {
     setIsOpen(false);
   };
 
-  // Track active section based on scroll position
+  // Track active section and header state
   useEffect(() => {
     const handleScroll = () => {
       const sections = navItems.map(item => item.href.substring(1));
-      const scrollPosition = window.scrollY + 100;
+      const headerOffset = getHeaderOffset();
+      const scrollPosition = window.scrollY + headerOffset + 20;
+
+      setScrolled(window.scrollY > 8);
 
       for (let i = sections.length - 1; i >= 0; i--) {
         const section = document.getElementById(sections[i]);
@@ -46,78 +59,117 @@ const NavigationMenu = () => {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Determine extension store URL based on browser
+  useEffect(() => {
+    const ua = navigator.userAgent.toLowerCase();
+    let url = 'https://chromewebstore.google.com/search/Savely?hl=en';
+    if (ua.includes('edg')) {
+      url = 'https://microsoftedge.microsoft.com/addons/search/savely';
+    } else if (ua.includes('firefox')) {
+      url = 'https://addons.mozilla.org/en-US/firefox/search/?q=Savely';
+    } else if (ua.includes('safari') && !ua.includes('chrome')) {
+      url = 'https://apps.apple.com/us/search?term=Savely%20extension';
+    }
+    setExtensionUrl(url);
+  }, []);
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-gradient-to-br from-purple-900 via-indigo-900 to-blue-900 overflow-hidden" style={{ position: 'fixed', top: 0, left: 0, right: 0, zIndex: 50 }}>
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute inset-0" style={{
-          backgroundImage: 'radial-gradient(circle at 2px 2px, white 1px, transparent 0)',
-          backgroundSize: '40px 40px'
-        }} />
-      </div>
+    <nav className="fixed top-0 left-0 right-0 z-50">
+      <div className="max-w-7xl mx-auto px-6">
+        <div
+          className={`mt-3 rounded-2xl border transition-all duration-300 ${
+            scrolled
+              ? 'bg-white border-gray-200 shadow-md'
+              : 'bg-white border-gray-100 shadow-sm'
+          }`}
+        >
+          <div className="flex h-12 sm:h-14 items-center justify-between px-4">
+            {/* Logo */}
+            <a href="/" className="flex items-center gap-2 group" aria-label="Savely home">
+              <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center transition-transform group-hover:scale-105">
+                <svg
+                  className="w-5 h-5 text-white"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                  strokeWidth={2}
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                >
+                  <path d="M16 10a4 4 0 0 1-8 0" />
+                  <path d="M3.103 6.034h17.794" />
+                  <path d="M3.4 5.467a2 2 0 0 0-.4 1.2V20a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2V6.667a2 2 0 0 0-.4-1.2l-2-2.667A2 2 0 0 0 17 2H7a2 2 0 0 0-1.6.8z" />
+                </svg>
+              </div>
+              <span className="text-xl font-semibold text-gray-900">Savely</span>
+            </a>
 
-      {/* Colorful glow accents */}
-      <div className="pointer-events-none absolute -top-24 -left-24 w-96 h-96 rounded-full blur-3xl opacity-30" style={{ background: 'radial-gradient(circle, rgba(167,139,250,0.7), rgba(167,139,250,0))' }} />
-      <div className="pointer-events-none absolute -bottom-24 -right-24 w-96 h-96 rounded-full blur-3xl opacity-30" style={{ background: 'radial-gradient(circle, rgba(96,165,250,0.7), rgba(96,165,250,0))' }} />
-
-      <div className="max-w-7xl mx-auto px-6 relative">
-        <div className="flex items-center justify-between h-16">
-          {/* Logo */}
-          <div className="flex items-center gap-3">
-            <div className="text-2xl">💳</div>
-            <span className="text-white font-semibold text-xl">Savely</span>
-          </div>
-
-          {/* Desktop Navigation - Centered */}
-          <div className="hidden md:flex items-center justify-center flex-1">
-            <div className="flex items-center space-x-1 bg-white/10 backdrop-blur-lg rounded-2xl p-2 border border-white/20">
-              {navItems.map((item) => (
+            {/* Desktop Navigation */}
+            <div className="hidden md:flex items-center gap-1">
+              {navItems.filter(i => i.name !== 'Get Started').map((item) => (
                 <button
                   key={item.name}
                   onClick={() => handleNavClick(item.href)}
-                  className={`px-6 py-2 rounded-xl text-sm font-medium transition-all duration-300 relative group overflow-hidden ${
+                  className={`px-3 py-2 rounded-lg text-sm font-medium transition-colors ${
                     activeSection === item.href.substring(1)
-                      ? 'text-white bg-gradient-to-r from-purple-500 to-blue-500 shadow-lg'
-                      : 'text-purple-200 hover:text-white hover:bg-white/20'
+                      ? 'text-gray-900 bg-gray-100'
+                      : 'text-gray-600 hover:text-gray-900 hover:bg-gray-100/60'
                   }`}
                 >
-                  <span className="relative z-10">{item.name}</span>
-                  {activeSection !== item.href.substring(1) && (
-                    <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  )}
+                  {item.name}
                 </button>
               ))}
             </div>
-          </div>
 
-          {/* Mobile menu button */}
-          <button
-            onClick={() => setIsOpen(!isOpen)}
-            className="md:hidden p-2 rounded-lg text-white hover:text-purple-200 hover:bg-white/20 transition-colors"
-          >
-            {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
-          </button>
+            {/* Right: CTA on desktop, menu on mobile */}
+            <div className="flex items-center gap-2">
+              <a
+                href={extensionUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="hidden md:inline-flex items-center rounded-full bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 text-sm shadow-lg shadow-blue-600/20 transition-all hover:shadow-xl hover:shadow-blue-600/30"
+              >
+                Get Started
+              </a>
+
+              <button
+                onClick={() => setIsOpen(!isOpen)}
+                className="md:hidden p-2 rounded-lg text-gray-700 hover:text-gray-900 hover:bg-white/70 transition-colors"
+              >
+                {isOpen ? <X className="w-5 h-5" /> : <Menu className="w-5 h-5" />}
+              </button>
+            </div>
+          </div>
         </div>
 
         {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden border-t border-white/20 bg-white/10 backdrop-blur-lg">
-            <div className="py-4 space-y-2">
+          <div className="md:hidden mt-2">
+            <div className="bg-white border border-gray-200/70 shadow-lg rounded-2xl p-3 space-y-1">
               {navItems.map((item) => (
-                <button
-                  key={item.name}
-                  onClick={() => handleNavClick(item.href)}
-                  className={`w-full text-left px-4 py-3 rounded-lg text-sm font-medium transition-all duration-300 relative group overflow-hidden ${
-                    activeSection === item.href.substring(1)
-                      ? 'text-white bg-gradient-to-r from-purple-500 to-blue-500'
-                      : 'text-purple-200 hover:text-white hover:bg-white/20'
-                  }`}
-                >
-                  <span className="relative z-10">{item.name}</span>
-                  {activeSection !== item.href.substring(1) && (
-                    <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/20 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                  )}
-                </button>
+                item.name === 'Get Started' ? (
+                  <a
+                    key={item.name}
+                    href={extensionUrl}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="block w-full text-center px-4 py-2.5 rounded-xl text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white transition-colors"
+                  >
+                    {item.name}
+                  </a>
+                ) : (
+                  <button
+                    key={item.name}
+                    onClick={() => handleNavClick(item.href)}
+                    className={`w-full text-left px-4 py-2.5 rounded-xl text-sm font-medium transition-colors ${
+                      activeSection === item.href.substring(1)
+                        ? 'text-gray-900 bg-gray-100'
+                        : 'text-gray-700 hover:text-gray-900 hover:bg-gray-100/70'
+                    }`}
+                  >
+                    {item.name}
+                  </button>
+                )
               ))}
             </div>
           </div>
