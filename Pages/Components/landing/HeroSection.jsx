@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Chrome, Globe, Lock, Zap } from 'lucide-react';
+import { Chrome, Firefox, Globe, Lock, Zap } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
 const topBrands = [
@@ -33,6 +33,7 @@ export default function HeroSection() {
     const [isDeleting, setIsDeleting] = useState(false);
     const [isMobile, setIsMobile] = useState(false);
     const [browserName, setBrowserName] = useState('Chrome');
+    const [browserFamily, setBrowserFamily] = useState('chromium');
 
     useEffect(() => {
         const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -40,16 +41,24 @@ export default function HeroSection() {
 
         // Detect browser for CTA copy
         const ua = navigator.userAgent.toLowerCase();
-        if (ua.includes('edg')) {
-            setBrowserName('Edge');
-        } else if (ua.includes('firefox')) {
+        if (ua.includes('firefox')) {
             setBrowserName('Firefox');
+            setBrowserFamily('firefox');
+        } else if (ua.includes('edg')) {
+            setBrowserName('Edge');
+            setBrowserFamily('chromium');
+        } else if (ua.includes('opr') || ua.includes('opera')) {
+            setBrowserName('Opera');
+            setBrowserFamily('chromium');
         } else if (ua.includes('chrome')) {
             setBrowserName('Chrome');
+            setBrowserFamily('chromium');
         } else if (ua.includes('safari')) {
             setBrowserName('Safari');
+            setBrowserFamily('safari');
         } else {
             setBrowserName('Chrome');
+            setBrowserFamily('chromium');
         }
 
         window.addEventListener('resize', checkMobile);
@@ -85,8 +94,12 @@ export default function HeroSection() {
                     <div className="space-y-8 text-center lg:text-left">
                         {/* Trust Badge */}
                         <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-sm font-medium">
-                            <Chrome className="w-4 h-4" />
-                            <span>Free {browserName} Extension</span>
+                            {browserFamily === 'firefox' ? (
+                                <Firefox className="w-4 h-4" />
+                            ) : (
+                                <Chrome className="w-4 h-4" />
+                            )}
+                            <span>{browserFamily === 'safari' ? 'Safari is not supported' : `Free ${browserName} Extension`}</span>
                         </div>
 
                         {/* Headline and Subtext */}
@@ -104,9 +117,13 @@ export default function HeroSection() {
 
                         {/* CTA */}
                         <div>
-                            <Button size="lg" className="group bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 text-lg h-auto">
-                                <Chrome className="w-6 h-6 mr-3 transition-transform group-hover:animate-spin" />
-                                Add to {browserName} - It's Free!
+                            <Button size="lg" className="group bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 text-lg h-auto" disabled={browserFamily === 'safari'}>
+                                {browserFamily === 'firefox' ? (
+                                    <Firefox className="w-6 h-6 mr-3 transition-transform group-hover:animate-spin" />
+                                ) : browserFamily === 'chromium' ? (
+                                    <Chrome className="w-6 h-6 mr-3 transition-transform group-hover:animate-spin" />
+                                ) : null}
+                                {browserFamily === 'safari' ? 'Safari is not supported' : `Add to ${browserName} - It's Free!`}
                             </Button>
                         </div>
 
