@@ -63,7 +63,7 @@ export default function HeroSection() {
         } else if (isChromeLike) {
             setBrowserName('Chrome');
             setBrowserFamily('chromium');
-            setDownloadUrl('https://microsoftedge.microsoft.com/addons/detail/savely/hldcionlpdbhbfjeebklhdindhliekff');
+            setDownloadUrl('https://chromewebstore.google.com/detail/savely/your-extension-id');
         } else if (isSafari) {
             setBrowserName('Safari');
             setBrowserFamily('safari');
@@ -71,7 +71,7 @@ export default function HeroSection() {
         } else {
             setBrowserName('Chrome');
             setBrowserFamily('chromium');
-            setDownloadUrl('https://microsoftedge.microsoft.com/addons/detail/savely/hldcionlpdbhbfjeebklhdindhliekff');
+            setDownloadUrl('https://chromewebstore.google.com/detail/savely/your-extension-id');
         }
 
         window.addEventListener('resize', checkMobile);
@@ -121,7 +121,7 @@ export default function HeroSection() {
                             ) : (
                                 <Chrome className="w-4 h-4" />
                             )}
-                            <span>{browserFamily === 'safari' ? 'Safari is not supported' : `Free ${browserName} Extension`}</span>
+                            <span>{browserFamily === 'safari' ? 'Coming Soon' : `Free ${browserName} Extension`}</span>
                         </div>
 
                         {/* Headline and Subtext */}
@@ -141,16 +141,20 @@ export default function HeroSection() {
                         <div>
                             <Button 
                                 size="lg" 
-                                className="group bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 text-lg h-auto" 
+                                className={`group px-8 py-6 text-lg h-auto ${
+                                    browserFamily === 'safari' 
+                                        ? 'bg-gray-400 text-gray-200 cursor-not-allowed' 
+                                        : 'bg-blue-600 hover:bg-blue-700 text-white'
+                                }`}
+                                onClick={browserFamily === 'safari' ? undefined : handleDownloadClick}
                                 disabled={browserFamily === 'safari'}
-                                onClick={handleDownloadClick}
                             >
                                 {browserFamily === 'firefox' ? (
                                     <Flame className="w-6 h-6 mr-3 transition-transform group-hover:animate-spin" />
                                 ) : browserFamily === 'chromium' ? (
                                     <Chrome className="w-6 h-6 mr-3 transition-transform group-hover:animate-spin" />
                                 ) : null}
-                                {browserFamily === 'safari' ? 'Safari is not supported' : `Add to ${browserName || 'Chrome'} - It's Free!`}
+                                {browserFamily === 'safari' ? 'Coming Soon' : `Get Started - It's Free!`}
                             </Button>
                         </div>
 

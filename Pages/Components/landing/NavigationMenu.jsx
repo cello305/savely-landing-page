@@ -23,15 +23,39 @@ const NavigationMenu = () => {
 
   // Handle smooth scrolling
   const handleNavClick = (href) => {
-    const element = document.querySelector(href);
-    if (element) {
-      const headerOffset = getHeaderOffset();
-      const offsetTop = element.offsetTop - headerOffset;
-      window.scrollTo({
-        top: offsetTop,
-        behavior: 'smooth'
-      });
-    }
+    // Small delay to ensure DOM is ready
+    setTimeout(() => {
+      const element = document.querySelector(href);
+      if (element) {
+        const headerOffset = getHeaderOffset();
+        const targetPosition = element.offsetTop - headerOffset;
+        
+        // Smooth scroll animation
+        const startPosition = window.pageYOffset;
+        const distance = targetPosition - startPosition;
+        const duration = 800; // milliseconds
+        let startTime = null;
+
+        const smoothScroll = (currentTime) => {
+          if (startTime === null) startTime = currentTime;
+          const timeElapsed = currentTime - startTime;
+          const progress = Math.min(timeElapsed / duration, 1);
+          
+          // Easing function for smooth animation (ease-in-out)
+          const ease = progress < 0.5 
+            ? 2 * progress * progress 
+            : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+          
+          window.scrollTo(0, startPosition + distance * ease);
+          
+          if (timeElapsed < duration) {
+            requestAnimationFrame(smoothScroll);
+          }
+        };
+        
+        requestAnimationFrame(smoothScroll);
+      }
+    }, 10);
     setIsOpen(false);
   };
 
@@ -62,13 +86,13 @@ const NavigationMenu = () => {
   // Determine extension store URL based on browser
   useEffect(() => {
     const ua = navigator.userAgent.toLowerCase();
-    let url = 'https://chromewebstore.google.com/search/Savely?hl=en';
+    let url = 'https://chromewebstore.google.com/detail/savely/your-extension-id';
     if (ua.includes('edg')) {
-      url = 'https://microsoftedge.microsoft.com/addons/search/savely';
+      url = 'https://microsoftedge.microsoft.com/addons/detail/savely/hldcionlpdbhbfjeebklhdindhliekff';
     } else if (ua.includes('firefox')) {
-      url = 'https://addons.mozilla.org/en-US/firefox/search/?q=Savely';
+      url = 'https://addons.mozilla.org/en-US/firefox/addon/savely/';
     } else if (ua.includes('safari') && !ua.includes('chrome')) {
-      url = 'https://apps.apple.com/us/search?term=Savely%20extension';
+      url = '';
     }
     setExtensionUrl(url);
   }, []);
@@ -123,14 +147,23 @@ const NavigationMenu = () => {
 
             {/* Right: CTA on desktop, menu on mobile */}
             <div className="flex items-center gap-2">
-              <a
-                href={extensionUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="hidden md:inline-flex items-center rounded-full bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 text-sm shadow-lg shadow-blue-600/20 transition-all hover:shadow-xl hover:shadow-blue-600/30"
-              >
-                Get Started
-              </a>
+              {extensionUrl ? (
+                <a
+                  href={extensionUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hidden md:inline-flex items-center rounded-full bg-blue-600 hover:bg-blue-700 text-white font-medium px-4 py-2 text-sm shadow-lg shadow-blue-600/20 transition-all hover:shadow-xl hover:shadow-blue-600/30"
+                >
+                  Get Started
+                </a>
+              ) : (
+                <button
+                  disabled
+                  className="hidden md:inline-flex items-center rounded-full bg-gray-400 text-gray-200 font-medium px-4 py-2 text-sm cursor-not-allowed"
+                >
+                  Coming Soon
+                </button>
+              )}
 
               <button
                 onClick={() => setIsOpen(!isOpen)}
@@ -148,15 +181,25 @@ const NavigationMenu = () => {
             <div className="bg-white border border-gray-200/70 shadow-lg rounded-2xl p-3 space-y-1">
               {navItems.map((item) => (
                 item.name === 'Get Started' ? (
-                  <a
-                    key={item.name}
-                    href={extensionUrl}
-                    target="_blank"
-                    rel="noopener noreferrer"
-                    className="block w-full text-center px-4 py-2.5 rounded-xl text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white transition-colors"
-                  >
-                    {item.name}
-                  </a>
+                  extensionUrl ? (
+                    <a
+                      key={item.name}
+                      href={extensionUrl}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="block w-full text-center px-4 py-2.5 rounded-xl text-sm font-medium bg-blue-600 hover:bg-blue-700 text-white transition-colors"
+                    >
+                      {item.name}
+                    </a>
+                  ) : (
+                    <button
+                      key={item.name}
+                      disabled
+                      className="block w-full text-center px-4 py-2.5 rounded-xl text-sm font-medium bg-gray-400 text-gray-200 cursor-not-allowed"
+                    >
+                      Coming Soon
+                    </button>
+                  )
                 ) : (
                   <button
                     key={item.name}
