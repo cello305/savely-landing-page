@@ -1,6 +1,6 @@
 import { Badge } from '@/components/ui/badge';
 import { Button } from '@/components/ui/button';
-import { Chrome, Firefox, Globe, Lock, Zap } from 'lucide-react';
+import { Chrome, Flame, Globe, Lock, Zap } from 'lucide-react';
 import React, { useEffect, useState } from 'react';
 
 const topBrands = [
@@ -41,19 +41,25 @@ export default function HeroSection() {
 
         // Detect browser for CTA copy
         const ua = navigator.userAgent.toLowerCase();
-        if (ua.includes('firefox')) {
+        const isEdge = ua.includes('edg');
+        const isOpera = ua.includes('opr') || ua.includes('opera');
+        const isFirefox = ua.includes('firefox') || ua.includes('fxios');
+        const isChromeLike = (ua.includes('chrome') || ua.includes('crios')) && !isEdge && !isOpera; // chromium-family
+        const isSafari = ua.includes('safari') && !isChromeLike && !isEdge && !isOpera; // pure Safari
+
+        if (isFirefox) {
             setBrowserName('Firefox');
             setBrowserFamily('firefox');
-        } else if (ua.includes('edg')) {
+        } else if (isEdge) {
             setBrowserName('Edge');
             setBrowserFamily('chromium');
-        } else if (ua.includes('opr') || ua.includes('opera')) {
+        } else if (isOpera) {
             setBrowserName('Opera');
             setBrowserFamily('chromium');
-        } else if (ua.includes('chrome')) {
+        } else if (isChromeLike) {
             setBrowserName('Chrome');
             setBrowserFamily('chromium');
-        } else if (ua.includes('safari')) {
+        } else if (isSafari) {
             setBrowserName('Safari');
             setBrowserFamily('safari');
         } else {
@@ -95,7 +101,7 @@ export default function HeroSection() {
                         {/* Trust Badge */}
                         <div className="inline-flex items-center gap-2 bg-blue-50 text-blue-700 px-4 py-2 rounded-full text-sm font-medium">
                             {browserFamily === 'firefox' ? (
-                                <Firefox className="w-4 h-4" />
+                                <Flame className="w-4 h-4" />
                             ) : (
                                 <Chrome className="w-4 h-4" />
                             )}
@@ -119,11 +125,11 @@ export default function HeroSection() {
                         <div>
                             <Button size="lg" className="group bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 text-lg h-auto" disabled={browserFamily === 'safari'}>
                                 {browserFamily === 'firefox' ? (
-                                    <Firefox className="w-6 h-6 mr-3 transition-transform group-hover:animate-spin" />
+                                    <Flame className="w-6 h-6 mr-3 transition-transform group-hover:animate-spin" />
                                 ) : browserFamily === 'chromium' ? (
                                     <Chrome className="w-6 h-6 mr-3 transition-transform group-hover:animate-spin" />
                                 ) : null}
-                                {browserFamily === 'safari' ? 'Safari is not supported' : `Add to ${browserName} - It's Free!`}
+                                {browserFamily === 'safari' ? 'Safari is not supported' : `Add to ${browserName || 'Chrome'} - It's Free!`}
                             </Button>
                         </div>
 

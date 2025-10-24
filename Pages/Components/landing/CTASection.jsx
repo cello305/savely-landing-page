@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
-import { Chrome, Check } from 'lucide-react';
+import { Chrome, Flame, Check } from 'lucide-react';
 
 const benefits = [
   'Completely free forever',
@@ -9,19 +9,36 @@ const benefits = [
 ];
 
 export default function CTASection() {
-  const [browserName, setBrowserName] = useState('Firefox');
+  const [browserName, setBrowserName] = useState('Chrome');
+  const [browserFamily, setBrowserFamily] = useState('chromium');
 
-  // Detect browser
+  // Detect browser (consistent with HeroSection)
   useEffect(() => {
-    const userAgent = navigator.userAgent.toLowerCase();
-    if (userAgent.includes('chrome') && !userAgent.includes('edg')) {
-      setBrowserName('Chrome');
-    } else if (userAgent.includes('firefox')) {
+    const ua = navigator.userAgent.toLowerCase();
+    const isEdge = ua.includes('edg');
+    const isOpera = ua.includes('opr') || ua.includes('opera');
+    const isFirefox = ua.includes('firefox') || ua.includes('fxios');
+    const isChromeLike = (ua.includes('chrome') || ua.includes('crios')) && !isEdge && !isOpera;
+    const isSafari = ua.includes('safari') && !isChromeLike && !isEdge && !isOpera;
+
+    if (isFirefox) {
       setBrowserName('Firefox');
-    } else if (userAgent.includes('edg')) {
+      setBrowserFamily('firefox');
+    } else if (isEdge) {
       setBrowserName('Edge');
+      setBrowserFamily('chromium');
+    } else if (isOpera) {
+      setBrowserName('Opera');
+      setBrowserFamily('chromium');
+    } else if (isChromeLike) {
+      setBrowserName('Chrome');
+      setBrowserFamily('chromium');
+    } else if (isSafari) {
+      setBrowserName('Safari');
+      setBrowserFamily('safari');
     } else {
-      setBrowserName('Firefox'); // Default fallback
+      setBrowserName('Chrome');
+      setBrowserFamily('chromium');
     }
   }, []);
 
@@ -47,10 +64,15 @@ export default function CTASection() {
         <div className="pt-6">
           <Button 
             size="lg"
-            className="bg-white text-blue-700 hover:bg-gray-50 px-10 py-7 text-xl rounded-2xl shadow-2xl hover:shadow-white/20 transition-all duration-300 hover:scale-105 group"
+            disabled={browserFamily === 'safari'}
+            className="group bg-white text-blue-700 hover:bg-gray-50 px-10 py-7 text-xl rounded-2xl shadow-2xl hover:shadow-white/20 transition-all duration-300 hover:scale-105"
           >
-            <Chrome className="w-6 h-6 mr-3 group-hover:rotate-12 transition-transform" />
-            Add to {browserName} - Free Forever
+            {browserFamily === 'firefox' ? (
+              <Flame className="w-6 h-6 mr-3 transition-transform group-hover:animate-spin" />
+            ) : browserFamily === 'chromium' ? (
+              <Chrome className="w-6 h-6 mr-3 transition-transform group-hover:animate-spin" />
+            ) : null}
+            {browserFamily === 'safari' ? 'Safari is not supported' : `Add to ${browserName} - Free Forever`}
           </Button>
         </div>
 
