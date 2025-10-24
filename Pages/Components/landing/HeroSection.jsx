@@ -34,6 +34,7 @@ export default function HeroSection() {
     const [isMobile, setIsMobile] = useState(false);
     const [browserName, setBrowserName] = useState('Chrome');
     const [browserFamily, setBrowserFamily] = useState('chromium');
+    const [downloadUrl, setDownloadUrl] = useState('');
 
     useEffect(() => {
         const checkMobile = () => setIsMobile(window.innerWidth < 768);
@@ -50,26 +51,41 @@ export default function HeroSection() {
         if (isFirefox) {
             setBrowserName('Firefox');
             setBrowserFamily('firefox');
+            setDownloadUrl('https://addons.mozilla.org/en-US/firefox/addon/savely/');
         } else if (isEdge) {
             setBrowserName('Edge');
             setBrowserFamily('chromium');
+            setDownloadUrl('https://microsoftedge.microsoft.com/addons/detail/savely/hldcionlpdbhbfjeebklhdindhliekff');
         } else if (isOpera) {
             setBrowserName('Opera');
             setBrowserFamily('chromium');
+            setDownloadUrl('https://microsoftedge.microsoft.com/addons/detail/savely/hldcionlpdbhbfjeebklhdindhliekff');
         } else if (isChromeLike) {
             setBrowserName('Chrome');
             setBrowserFamily('chromium');
+            setDownloadUrl('https://microsoftedge.microsoft.com/addons/detail/savely/hldcionlpdbhbfjeebklhdindhliekff');
         } else if (isSafari) {
             setBrowserName('Safari');
             setBrowserFamily('safari');
+            setDownloadUrl('');
         } else {
             setBrowserName('Chrome');
             setBrowserFamily('chromium');
+            setDownloadUrl('https://microsoftedge.microsoft.com/addons/detail/savely/hldcionlpdbhbfjeebklhdindhliekff');
         }
 
         window.addEventListener('resize', checkMobile);
         return () => window.removeEventListener('resize', checkMobile);
     }, []);
+
+    const handleDownloadClick = () => {
+        console.log('Hero button clicked!', { browserName, browserFamily, downloadUrl });
+        if (downloadUrl) {
+            window.open(downloadUrl, '_blank');
+        } else {
+            console.log('No download URL available');
+        }
+    };
 
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -123,7 +139,12 @@ export default function HeroSection() {
 
                         {/* CTA */}
                         <div>
-                            <Button size="lg" className="group bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 text-lg h-auto" disabled={browserFamily === 'safari'}>
+                            <Button 
+                                size="lg" 
+                                className="group bg-blue-600 hover:bg-blue-700 text-white px-8 py-6 text-lg h-auto" 
+                                disabled={browserFamily === 'safari'}
+                                onClick={handleDownloadClick}
+                            >
                                 {browserFamily === 'firefox' ? (
                                     <Flame className="w-6 h-6 mr-3 transition-transform group-hover:animate-spin" />
                                 ) : browserFamily === 'chromium' ? (

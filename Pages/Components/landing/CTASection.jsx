@@ -3,7 +3,7 @@ import { Button } from '@/components/ui/button';
 import { Chrome, Flame, Check } from 'lucide-react';
 
 const benefits = [
-  'Completely free forever',
+  'Completely free',
   'No credit card required',
   'Works with 1000+ brands'
 ];
@@ -11,8 +11,9 @@ const benefits = [
 export default function CTASection() {
   const [browserName, setBrowserName] = useState('Chrome');
   const [browserFamily, setBrowserFamily] = useState('chromium');
+  const [downloadUrl, setDownloadUrl] = useState('');
 
-  // Detect browser (consistent with HeroSection)
+  // Detect browser and set appropriate download URL
   useEffect(() => {
     const ua = navigator.userAgent.toLowerCase();
     const isEdge = ua.includes('edg');
@@ -24,23 +25,38 @@ export default function CTASection() {
     if (isFirefox) {
       setBrowserName('Firefox');
       setBrowserFamily('firefox');
+      setDownloadUrl('https://addons.mozilla.org/en-US/firefox/addon/savely/');
     } else if (isEdge) {
       setBrowserName('Edge');
       setBrowserFamily('chromium');
+      setDownloadUrl('https://microsoftedge.microsoft.com/addons/detail/savely/hldcionlpdbhbfjeebklhdindhliekff');
     } else if (isOpera) {
       setBrowserName('Opera');
       setBrowserFamily('chromium');
+      setDownloadUrl('https://microsoftedge.microsoft.com/addons/detail/savely/hldcionlpdbhbfjeebklhdindhliekff');
     } else if (isChromeLike) {
       setBrowserName('Chrome');
       setBrowserFamily('chromium');
+      setDownloadUrl('https://microsoftedge.microsoft.com/addons/detail/savely/hldcionlpdbhbfjeebklhdindhliekff');
     } else if (isSafari) {
       setBrowserName('Safari');
       setBrowserFamily('safari');
+      setDownloadUrl('');
     } else {
       setBrowserName('Chrome');
       setBrowserFamily('chromium');
+      setDownloadUrl('https://microsoftedge.microsoft.com/addons/detail/savely/hldcionlpdbhbfjeebklhdindhliekff');
     }
   }, []);
+
+  const handleDownloadClick = () => {
+    console.log('Button clicked!', { browserName, browserFamily, downloadUrl });
+    if (downloadUrl) {
+      window.open(downloadUrl, '_blank');
+    } else {
+      console.log('No download URL available');
+    }
+  };
 
   return (
     <section className="py-32 px-6 relative overflow-hidden">
@@ -65,6 +81,7 @@ export default function CTASection() {
           <Button 
             size="lg"
             disabled={browserFamily === 'safari'}
+            onClick={handleDownloadClick}
             className="group bg-white text-blue-700 hover:bg-gray-50 px-10 py-7 text-xl rounded-2xl shadow-2xl hover:shadow-white/20 transition-all duration-300 hover:scale-105"
           >
             {browserFamily === 'firefox' ? (
@@ -72,7 +89,7 @@ export default function CTASection() {
             ) : browserFamily === 'chromium' ? (
               <Chrome className="w-6 h-6 mr-3 transition-transform group-hover:animate-spin" />
             ) : null}
-            {browserFamily === 'safari' ? 'Safari is not supported' : `Add to ${browserName} - Free Forever`}
+            {browserFamily === 'safari' ? 'Safari is not supported' : `Add to ${browserName} - It's Free!`}
           </Button>
         </div>
 
