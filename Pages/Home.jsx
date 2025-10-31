@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
@@ -63,11 +64,27 @@ export default function Home() {
                 </section>
 
                 {/* Footer */}
-                <footer className="border-t border-gray-200/50 backdrop-blur-sm bg-white/30 py-6">
-                    <div className="max-w-7xl mx-auto px-6 text-center">
-                        <p className="text-gray-600 text-sm">
-                            © 2025 Savely. Save smarter, shop better.
-                        </p>
+                <footer className="border-t border-gray-200/50 backdrop-blur-sm bg-white/30 py-8">
+                    <div className="max-w-7xl mx-auto px-6">
+                        <div className="flex flex-col md:flex-row items-center justify-between gap-4">
+                            <p className="text-gray-600 text-sm">
+                                © 2025 Savely. Save smarter, shop better.
+                            </p>
+                            <div className="flex items-center gap-6">
+                                <Link
+                                    to="/contact-us"
+                                    className="text-gray-600 hover:text-gray-900 text-sm font-medium transition-colors"
+                                >
+                                    Contact Us
+                                </Link>
+                                <Link
+                                    to="/privacy-policy"
+                                    className="text-gray-600 hover:text-gray-900 text-sm font-medium transition-colors"
+                                >
+                                    Privacy Policy
+                                </Link>
+                            </div>
+                        </div>
                     </div>
                 </footer>
             </div>

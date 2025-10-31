@@ -63,7 +63,7 @@ export default function HeroSection() {
         } else if (isChromeLike) {
             setBrowserName('Chrome');
             setBrowserFamily('chromium');
-            setDownloadUrl('https://chromewebstore.google.com/detail/savely/your-extension-id');
+            setDownloadUrl('https://chromewebstore.google.com/detail/savely/lhpadmkgboajeocdmbcifgclampmjolo');
         } else if (isSafari) {
             setBrowserName('Safari');
             setBrowserFamily('safari');
@@ -71,7 +71,7 @@ export default function HeroSection() {
         } else {
             setBrowserName('Chrome');
             setBrowserFamily('chromium');
-            setDownloadUrl('https://chromewebstore.google.com/detail/savely/your-extension-id');
+            setDownloadUrl('https://chromewebstore.google.com/detail/savely/lhpadmkgboajeocdmbcifgclampmjolo');
         }
 
         window.addEventListener('resize', checkMobile);

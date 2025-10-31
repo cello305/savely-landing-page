@@ -37,7 +37,7 @@ export default function CTASection() {
     } else if (isChromeLike) {
       setBrowserName('Chrome');
       setBrowserFamily('chromium');
-      setDownloadUrl('https://microsoftedge.microsoft.com/addons/detail/savely/hldcionlpdbhbfjeebklhdindhliekff');
+      setDownloadUrl('https://chromewebstore.google.com/detail/savely/lhpadmkgboajeocdmbcifgclampmjolo');
     } else if (isSafari) {
       setBrowserName('Safari');
       setBrowserFamily('safari');
@@ -45,7 +45,7 @@ export default function CTASection() {
     } else {
       setBrowserName('Chrome');
       setBrowserFamily('chromium');
-      setDownloadUrl('https://microsoftedge.microsoft.com/addons/detail/savely/hldcionlpdbhbfjeebklhdindhliekff');
+      setDownloadUrl('https://chromewebstore.google.com/detail/savely/lhpadmkgboajeocdmbcifgclampmjolo');
     }
   }, []);
 

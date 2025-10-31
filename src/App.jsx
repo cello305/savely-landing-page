@@ -1,11 +1,16 @@
+import { Routes, Route } from 'react-router-dom'
 import Home from '../Pages/Home'
-import { TailwindIndicator } from '../Pages/Components/tailwind-indicator'
+import Contact from '../Pages/Contact'
+import PrivacyPolicy from '../Pages/PrivacyPolicy'
 
 function App() {
   return (
     <>
-      <Home />
-      <TailwindIndicator />
+      <Routes>
+        <Route path="/" element={<Home />} />
+        <Route path="/contact-us" element={<Contact />} />
+        <Route path="/privacy-policy" element={<PrivacyPolicy />} />
+      </Routes>
     </>
   )
 }

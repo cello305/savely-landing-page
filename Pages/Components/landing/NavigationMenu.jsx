@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 
 const NavigationMenu = () => {
+  const navigate = useNavigate();
+  const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [activeSection, setActiveSection] = useState('');
   const [scrolled, setScrolled] = useState(false);
@@ -23,75 +26,106 @@ const NavigationMenu = () => {
 
   // Handle smooth scrolling
   const handleNavClick = (href) => {
+    setIsOpen(false);
+    
+    // If we're not on the home page, navigate to home first
+    if (location.pathname !== '/') {
+      navigate('/');
+      // Wait for navigation, then scroll
+      setTimeout(() => {
+        scrollToSection(href);
+      }, 100);
+    } else {
+      scrollToSection(href);
+    }
+  };
+
+  const scrollToSection = (href) => {
     // Small delay to ensure DOM is ready
     setTimeout(() => {
       const element = document.querySelector(href);
       if (element) {
-        const headerOffset = getHeaderOffset();
-        const targetPosition = element.offsetTop - headerOffset;
-        
-        // Smooth scroll animation
-        const startPosition = window.pageYOffset;
-        const distance = targetPosition - startPosition;
-        const duration = 800; // milliseconds
-        let startTime = null;
-
-        const smoothScroll = (currentTime) => {
-          if (startTime === null) startTime = currentTime;
-          const timeElapsed = currentTime - startTime;
-          const progress = Math.min(timeElapsed / duration, 1);
-          
-          // Easing function for smooth animation (ease-in-out)
-          const ease = progress < 0.5 
-            ? 2 * progress * progress 
-            : 1 - Math.pow(-2 * progress + 2, 3) / 2;
-          
-          window.scrollTo(0, startPosition + distance * ease);
-          
-          if (timeElapsed < duration) {
-            requestAnimationFrame(smoothScroll);
-          }
-        };
-        
-        requestAnimationFrame(smoothScroll);
+        // Use native smooth scroll for better performance
+        element.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start',
+        });
       }
-    }, 10);
-    setIsOpen(false);
+    }, 50);
   };
 
-  // Track active section and header state
+  // Track scrolled state for header styling (works on all pages)
   useEffect(() => {
+    let ticking = false;
     const handleScroll = () => {
-      const sections = navItems.map(item => item.href.substring(1));
-      const headerOffset = getHeaderOffset();
-      const scrollPosition = window.scrollY + headerOffset + 20;
-
-      setScrolled(window.scrollY > 8);
-
-      for (let i = sections.length - 1; i >= 0; i--) {
-        const section = document.getElementById(sections[i]);
-        if (section && section.offsetTop <= scrollPosition) {
-          setActiveSection(sections[i]);
-          break;
-        }
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          setScrolled(window.scrollY > 8);
+          ticking = false;
+        });
+        ticking = true;
       }
     };
 
-    window.addEventListener('scroll', handleScroll);
+    window.addEventListener('scroll', handleScroll, { passive: true });
     handleScroll(); // Check initial position
 
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  // Track active section on home page only
+  useEffect(() => {
+    if (location.pathname !== '/') {
+      setActiveSection(''); // Clear active section when not on home
+      return;
+    }
+
+    let ticking = false;
+    const handleScroll = () => {
+      if (!ticking) {
+        window.requestAnimationFrame(() => {
+          const sections = navItems.map(item => item.href.substring(1));
+          const headerOffset = getHeaderOffset();
+          const scrollPosition = window.scrollY + headerOffset + 20;
+
+          for (let i = sections.length - 1; i >= 0; i--) {
+            const section = document.getElementById(sections[i]);
+            if (section && section.offsetTop <= scrollPosition) {
+              setActiveSection(sections[i]);
+              break;
+            }
+          }
+          ticking = false;
+        });
+        ticking = true;
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    handleScroll(); // Check initial position
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [location.pathname]);
+
   // Determine extension store URL based on browser
   useEffect(() => {
     const ua = navigator.userAgent.toLowerCase();
-    let url = 'https://chromewebstore.google.com/detail/savely/your-extension-id';
-    if (ua.includes('edg')) {
-      url = 'https://microsoftedge.microsoft.com/addons/detail/savely/hldcionlpdbhbfjeebklhdindhliekff';
-    } else if (ua.includes('firefox')) {
+    const isEdge = ua.includes('edg');
+    const isOpera = ua.includes('opr') || ua.includes('opera');
+    const isFirefox = ua.includes('firefox') || ua.includes('fxios');
+    const isChromeLike = (ua.includes('chrome') || ua.includes('crios')) && !isEdge && !isOpera;
+    const isSafari = ua.includes('safari') && !isChromeLike && !isEdge && !isOpera;
+    
+    let url = 'https://chromewebstore.google.com/detail/savely/lhpadmkgboajeocdmbcifgclampmjolo';
+    if (isFirefox) {
       url = 'https://addons.mozilla.org/en-US/firefox/addon/savely/';
-    } else if (ua.includes('safari') && !ua.includes('chrome')) {
+    } else if (isEdge) {
+      url = 'https://microsoftedge.microsoft.com/addons/detail/savely/hldcionlpdbhbfjeebklhdindhliekff';
+    } else if (isOpera) {
+      url = 'https://microsoftedge.microsoft.com/addons/detail/savely/hldcionlpdbhbfjeebklhdindhliekff';
+    } else if (isChromeLike) {
+      url = 'https://chromewebstore.google.com/detail/savely/lhpadmkgboajeocdmbcifgclampmjolo';
+    } else if (isSafari) {
       url = '';
     }
     setExtensionUrl(url);
@@ -109,7 +143,7 @@ const NavigationMenu = () => {
         >
           <div className="flex h-12 sm:h-14 items-center justify-between px-4">
             {/* Logo */}
-            <a href="/" className="flex items-center gap-2 group" aria-label="Savely home">
+            <a href="/" onClick={(e) => { e.preventDefault(); navigate('/'); }} className="flex items-center gap-2 group" aria-label="Savely home">
               <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center transition-transform group-hover:scale-105">
                 <svg
                   className="w-5 h-5 text-white"
